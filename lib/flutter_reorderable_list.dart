@@ -5,6 +5,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
 
 import 'dart:collection';
 import 'dart:math';
@@ -493,8 +494,10 @@ class _ReorderableListState extends State<ReorderableList>
       _lastReportedKey = closest.key;
 
       if (widget.onReorder(_dragging!, closest.key)) {
-        if (Platform.isIOS) {
-          _hapticFeedback();
+        if (!kIsWeb) {
+          if (Platform.isIOS) {
+            _hapticFeedback();
+          }
         }
         for (final f in onReorderApproved) {
           f();
